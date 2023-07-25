@@ -68,9 +68,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             runOnUiThread {
                 // timer 함수가 백그라운드 스레드에서 실행되더라도 해당 함수는 메인 스레드에서 실행되게 하는 것
-                tv_millisecond.text = if(milli_second < 10 ) ".0${milli_second}" else ".${milli_second}"
-                tv_second.text = if(second<10) ":0${second}" else ":${second}"
-                tv_minute.text = "${minute}"
+                if(isRunning){
+                    tv_millisecond.text = if(milli_second < 10 ) ".0${milli_second}" else ".${milli_second}"
+                    tv_second.text = if(second<10) ":0${second}" else ":${second}"
+                    tv_minute.text = if(minute<10) "0${minute}" else "${minute}"
+                }
+
+
             }
         }
 
@@ -85,7 +89,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun reset(){
+        timer?.cancel()
+        btn_start.text = getString(R.string.btn_start)
+        btn_start.setBackgroundColor(getColor(R.color.btn_start))
+        isRunning = false
 
+        time = 0
+
+        tv_minute.text = "00"
+        tv_second.text = ":00"
+        tv_millisecond.text = ",00"
     }
 
 }
